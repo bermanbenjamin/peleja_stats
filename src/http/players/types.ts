@@ -1,7 +1,7 @@
 import { ErrorResponse } from "../types";
 
 export type Player = {
-  id: string;
+  ID: string;
   name: string;
   goals: number;
   assists: number;

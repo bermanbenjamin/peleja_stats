@@ -45,6 +45,13 @@ export const columns: ColumnDef<Player>[] = [
     },
   },
   {
+    accessorKey: "matches",
+    header: "Partidas",
+    cell: ({ row }) => {
+      return <div>{row.getValue("matches")}</div>;
+    },
+  },
+  {
     accessorKey: "actions",
     header: () => {
       return <div className="flex justify-end pr-2">Opções</div>;

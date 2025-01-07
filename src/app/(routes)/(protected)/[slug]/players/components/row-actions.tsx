@@ -8,11 +8,15 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Player } from "@/http/players/types";
+import { appRoutes } from "@/lib/constants";
+import playerStore from "@/store/player-store";
 import type { Row } from "@tanstack/react-table";
-import { useQueryState } from "nuqs";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { DeletePlayerDialog } from "./delete-dialog";
 
 type RowActionsProps<TData> = {
@@ -21,9 +25,13 @@ type RowActionsProps<TData> = {
 
 export function RowActions<TData>({ row }: RowActionsProps<TData>) {
   const props = row.original as Player;
-  const categoryId = props.id;
-  const [, setModal] = useQueryState("modal");
-  const [, setCategoryId] = useQueryState("id");
+  const playerId = props.ID;
+  const { slug } = useParams();
+  const selectPlayer = playerStore((state) => state.selectPlayer);
+
+  const handleSelectPlayer = () => {
+    selectPlayer(props);
+  };
 
   return (
     <AlertDialog>
@@ -39,14 +47,16 @@ export function RowActions<TData>({ row }: RowActionsProps<TData>) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem
-                className="flex justify-between cursor-pointer"
-                onClick={() => {
-                  setModal("update-category");
-                  setCategoryId(categoryId);
-                }}
+                className="cursor-pointer"
+                asChild
+                onClick={handleSelectPlayer}
               >
-                Editar
-                <Icons.update className="size-4" />
+                <Link href={appRoutes.players(slug, playerId)}>
+                  Ver Detalhes
+                  <DropdownMenuShortcut>
+                    <Icons.moveUpRight className="size-4 mr-2" />
+                  </DropdownMenuShortcut>
+                </Link>
               </DropdownMenuItem>
 
               <AlertDialogTrigger asChild>
@@ -59,7 +69,7 @@ export function RowActions<TData>({ row }: RowActionsProps<TData>) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <DeletePlayerDialog playerId={categoryId} />
+      <DeletePlayerDialog playerId={playerId} />
     </AlertDialog>
   );
 }
