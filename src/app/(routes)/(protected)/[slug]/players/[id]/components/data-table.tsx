@@ -63,16 +63,18 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex flex-wrap gap-y-4 justify-between items-center py-4">
         <Input
-          placeholder="🔎  Filtrar por Nome"
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="🔎  Filtrar por Data"
+          value={
+            (table.getColumn("createdAt")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("createdAt")?.setFilterValue(event.target.value)
           }
           className="max-w-60"
         />
-        <Button size="sm" onClick={() => setModal("create-player")}>
+        <Button size="sm" onClick={() => setModal("create-event")}>
           <Icons.circlePlus className="size-4 mr-1" />
-          Criar Jogador
+          Criar Evento
         </Button>
       </div>
       <div className="rounded-md border mb-2">

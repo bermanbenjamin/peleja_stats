@@ -9,7 +9,6 @@ type PlayerStore = {
 const playerStore = create<PlayerStore>((set) => ({
   selectedPlayer: null,
   selectPlayer: (player: Player) => {
-    console.log(`setting a player ${player}`);
     set({ selectedPlayer: player });
   },
 }));
